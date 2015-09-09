@@ -1,0 +1,25 @@
+# ApiGen Config Options for Endoscopia Sulmona
+#
+# Note: As of ApiGen 2.8 relative paths cannot be used, see:
+# https://github.com/apigen/apigen/issues/135
+
+title:
+	EndoscopiaSulmona
+
+source:
+	C:\xampp\htdocs\webprogaa101115
+
+destination:
+	C:\xampp\htdocs\webprogaa101115\Documentation
+
+groups:
+	auto
+
+tree:
+	yes
+
+exclude:
+	- */Documenti/*
+	- */includes/*
+	- */lib/*
+	- */nbproject/*	

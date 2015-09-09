@@ -1,0 +1,1 @@
+configurazione completata con successo

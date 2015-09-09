@@ -1,0 +1,1 @@
+<span class='ui-state-highlight'>Il Referto del suo esame è pronto per essere ritirato in sede</span>

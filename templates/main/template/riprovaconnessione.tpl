@@ -1,0 +1,2 @@
+configurazione errata
+Riprovare

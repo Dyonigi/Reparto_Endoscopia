@@ -1,0 +1,250 @@
+-- phpMyAdmin SQL Dump
+-- version 4.3.11
+-- http://www.phpmyadmin.net
+--
+
+-- Generation Time: Lug 23, 2015 alle 15:57
+-- Versione del server: 5.6.24
+-- PHP Version: 5.6.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `categoria`
+--
+
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `nome` varchar(50) CHARACTER SET utf8 NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `categoria`
+--
+
+INSERT INTO `categoria` (`nome`) VALUES
+('Esofagogastroduodenoscopia'),
+('Restosigmoidocolonscopia');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `contenuti`
+--
+
+CREATE TABLE IF NOT EXISTS `contenuti` (
+  `tag` varchar(20) NOT NULL,
+  `testo` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `contenuti`
+--
+
+INSERT INTO `contenuti` (`tag`, `testo`) VALUES
+('configcomple', 'configurazione completata con successo'),
+('Home', 'Reparto di Endoscopia dell''Ospedale di Sulmona');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `esame`
+--
+
+CREATE TABLE IF NOT EXISTS `esame` (
+  `nome` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `categoria` varchar(50) CHARACTER SET utf8,
+  `sottocategoria` varchar(50) CHARACTER SET utf8,
+  `dieta` TEXT CHARACTER SET utf8
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `esame`
+--
+
+INSERT INTO `esame` (`nome`, `categoria`, `sottocategoria`, `dieta`) VALUES
+('Endoscopico', 'Esofagogastroduodenoscopia', 'biopsia duodeno', "il paziente deve presentarsi digiuno e avendo effettuato due clisteri, uno la sera prima, e un secondo prima dell'esame stesso."),
+('Colonscopia', 'Restosigmoidocolonscopia', 'retto', "3 giorni prima dell'esame osservare una dieta priva di scorie (non mangiare frutta, verdura, crusca, ecc) e ricca
+di liquidi (almeno 2 litri al giorno).");
+
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `magazzino`
+--
+
+CREATE TABLE IF NOT EXISTS `magazzino` (
+  `materiale` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `quantita` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `magazzino`
+--
+
+INSERT INTO `magazzino` (`materiale`, `quantita`) VALUES
+('contenitore per esame istologico', 2),
+('gastroscopio', 1),
+('pinza bioptica', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `paziente`
+--
+
+CREATE TABLE IF NOT EXISTS `paziente` (
+  `codicecup` varchar(10) NOT NULL,
+  `nome` varchar(20) NOT NULL,
+  `cognome` varchar(20) NOT NULL,
+  `esame` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `dataEsame` date NOT NULL,
+  `Referto` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `paziente`
+--
+
+INSERT INTO `paziente` (`codicecup`, `nome`, `cognome`, `esame`, `dataEsame`, `Referto`) VALUES
+('XXXXXXXXX1', 'Mario', 'Del Grande', 'Endoscopico', '2015-07-19', 0),
+('XXXXXXXXXX', 'Felicia', 'Di Bacco', 'Colonscopia', '2015-07-19', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `sottocategoria`
+--
+
+CREATE TABLE IF NOT EXISTS `sottocategoria` (
+  `nome` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `categoria` varchar(50) CHARACTER SET utf8 NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `sottocategoria`
+--
+
+INSERT INTO `sottocategoria` (`nome`, `categoria`) VALUES
+('biopsia duodeno', 'Esofagogastroduodenoscopia'),
+('biopsia esofago', 'Esofagogastroduodenoscopia'),
+('biopsia', 'Restosigmoidocolonscopia'),
+('retto', 'Restosigmoidocolonscopia');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti` (
+  `username` varchar(20) NOT NULL,
+  `password` varchar(16) NOT NULL,
+  `nome` varchar(20) NOT NULL,
+  `cognome` varchar(20) NOT NULL,
+  `privilegi` tinyint unsigned NOT NULL,
+  `confermato` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `utenti`
+--
+
+INSERT INTO `utenti` (`username`, `password`, `nome`, `cognome`, `privilegi`, `confermato`) VALUES
+('Amministratore', 'amministra', 'Amministratore', 'Amministratore', 4, 1),
+('Capanna', 'ospedale', 'Armando', 'Capanna', 3, 1),
+('Denis', 'delgrande', 'Denis', 'Del Grande', 3, 0),
+('Felicia', 'denisgaia', 'Felicia', 'Di Bacco', 2, 1),
+('Magazziniere', 'magazziniere', 'Magazziniere', 'Magazziniere', 1, 1),
+('Infermiere', 'password', 'Infermiere', 'Infermiere', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utilizza`
+--
+
+CREATE TABLE IF NOT EXISTS `utilizza` (
+  `idutilizza` int(11) NOT NULL,
+  `esame` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `materiale` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `quantita` int(10) unsigned NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `utilizza`
+--
+
+INSERT INTO `utilizza` (`idutilizza`, `esame`, `materiale`, `quantita`) VALUES
+(1, 'Endoscopico', 'gastroscopio', 1),
+(2, 'Endoscopico', 'pinza bioptica', 1),
+(4, 'Colonscopia', 'gastroscopio', 1),
+(3, 'Endoscopico', 'contenitore per esame istologico', 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`nome`);
+
+--
+-- Indexes for table `contenuti`
+--
+ALTER TABLE `contenuti`
+  ADD PRIMARY KEY (`tag`);
+
+--
+-- Indexes for table `esame`
+--
+ALTER TABLE `esame`
+  ADD PRIMARY KEY (`nome`), ADD UNIQUE KEY `nome` (`nome`), ADD KEY `categoria` (`categoria`), ADD KEY `nome_2` (`nome`), ADD KEY `categoria_2` (`categoria`), ADD KEY `categoria_3` (`categoria`), ADD KEY `categoria_4` (`categoria`), ADD KEY `sottocategoria` (`sottocategoria`);
+
+--
+-- Indexes for table `magazzino`
+--
+ALTER TABLE `magazzino`
+  ADD PRIMARY KEY (`materiale`);
+
+--
+-- Indexes for table `paziente`
+--
+ALTER TABLE `paziente`
+  ADD PRIMARY KEY (`codicecup`), ADD KEY `esame` (`esame`);
+
+--
+-- Indexes for table `sottocategoria`
+--
+ALTER TABLE `sottocategoria`
+  ADD PRIMARY KEY (`nome`), ADD UNIQUE KEY `nome` (`nome`), ADD KEY `nome_2` (`nome`), ADD KEY `categoria` (`categoria`);
+
+--
+-- Indexes for table `utenti`
+--
+ALTER TABLE `utenti`
+  ADD PRIMARY KEY (`username`), ADD UNIQUE KEY `username` (`username`), ADD KEY `username_2` (`username`);
+
+--
+-- Indexes for table `utilizza`
+--
+ALTER TABLE `utilizza`
+  ADD PRIMARY KEY (`idutilizza`), ADD KEY `esame` (`esame`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+
+--
+-- AUTO_INCREMENT for table `utilizza`
+--
+ALTER TABLE `utilizza`
+  MODIFY `idutilizza` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;

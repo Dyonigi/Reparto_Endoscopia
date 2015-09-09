@@ -1,0 +1,1 @@
+Il Referto del suo esame non è ancora pronto per essere ritirato in sede
